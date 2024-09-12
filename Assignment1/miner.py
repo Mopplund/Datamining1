@@ -25,6 +25,12 @@ data = data.sort_values('species')
 print(data.head())
 print('===========')
 
+print(f"Mean: {data['sl'].mean()}")
+print(f"Std: {np.std(data['sl'])}")
 
-sns.pairplot(data, hue = "species")
-plt.show()
+print('===========')
+
+print(data.value_counts("species"))
+
+#sns.pairplot(data, hue = "species")
+#plt.show()
