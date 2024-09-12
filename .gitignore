@@ -1,5 +1,4 @@
 *.fls
 *.aux
 *.fdb_latexmk
-*.tex
 *.ipynb

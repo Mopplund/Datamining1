@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{booktabs} % For better table formatting
+\usepackage{longtable} % If the table is long and spans multiple pages
+\usepackage{listings}
+\usepackage{xcolor}
+\title{\textbf{Datamining 1: Assignment 1, }}
+\author{Group 17\\Simon Pislar, Robin Forslund, Edvin Illes, \\Vidar Pellving, Filip Bodlund Trostén}
+\date{September 2024}
+\begin{document}
+
+\maketitle
+
+\section{Task 1}
+\subsection*{a.}
+The data type of the assigned attribute 'id' is an integer.
+
+\subsection*{b.}
+When choosing integers we sacrifice the abilitiy to easialy identify a single entry. 
+For the ease of comparing the diffrent entries. 
+Due to integer comparing being a lot faster the string comparing.
+
+\subsection*{c.}
+Average: -5.705507692307693
+Standard deviation: 303.7655790655846
+
+\section{Task 2}
+\subsection*{Virginica}
+3000 instances
+\subsection*{Setosa}
+3000 instances
+\subsection*{Versicolor}
+500 instances
+
+\section{Task 3}
+\subsection*{a.}
+Missing values could cause faulty interperation of the result. In our case it made the average length negative. 
+This is of course impossible.
+
+\subsection*{b.}
+Average: 3.5275947028025865
+Standard deviation: 2.102330347553885
+\subsection*{c.}
+Average: 3.519642582036666
+Standard deviation: 2.018227888523091
+
+\subsection*{d.}
+Since the outlier in this case was 22 times the standard deviation.
+We can assume that it was noise since the probability for that being a correct observation is effectivily 0.
+
+\subsection*{e.}
+We would firstly handle the missing data. 
+To know if something is an outlier we need to check the standard deviation and if data is skwed from missing data this will be very difficult.
+
+\subsection*{f.}
+No we would not remove outliers in this case. In this specific scenario, it's hard to imagine what an outlier would be in a practical sense.
+Lets say we find a record in this social network that has a deviation of 4, heuristicly this could be a famous actor (assuming the social network is follower based).
+Now lets assume our definition of an outlier is the record with the highest degree centrality and deviation of 22. The probability for this as discussed earlier was 0\%
+which could indicate a record/person with \"botted\" followers. The implication however of removing a fale positive is of greater consequence when dealing with "real" human data
+so a default answer should be no (unless we have a good system to remedy false mutations of (rollback) data in the database).
+
+\section{Task 4}
+\subsection*{a.}
+Average: 0.43865202936075254
+Standard deviation: 0.3255206271811437
+
+\subsection*{b.}
+Average: 7.005813447642338e-17, which is basically 0
+Standard deviation: 1.0
+
+\subsection*{c.}
+Components selected: 2
+
+\subsection*{d.}
+Variance: 96.3%
+
+\subsection*{e.}
+How is the first component defined as a combination of the original attributes?
+
+Let t(x) denote the transformation by MinMaxScaler(0,1) followed by StandardScaler(). Then the relation between the 
+principal components PC 1 and PC 2 and the original variables pl, pw, sl, sw is:
+
+PC 1 = 0.51996187 * t(pl) -0.29793284 * t(pw) + 0.57300707 * t(sl) + 0.55905149 * t(sw) \\
+PC 2 = 0.38106173 * t(pl) + 0.91949846 * t(pw) + 0.05478206 * t(sl) + 0.07945728 * t(sw)
+
+
+
+\subsection*{f.}
+How many components would have been selected after 4.4 (that is, with an
+attribute expressed on a larger range)?
+Components selected: 1
+
+\subsection*{g.}
+How many components would have been selected after 4.5 (that is, with an
+outlier)?
+Components selected: 2
+
+
+\section{Task 5}
+\begin{table}[ht]
+    \centering
+    \caption{Summary of Sampling Methods and Specific Questions}
+    \begin{tabular}{@{}lcccc@{}}
+    \toprule
+    \textbf{Question} & \textbf{Simple} & \textbf{Sampling} & \textbf{Bootstrapping} & \textbf{Stratified (5.3)} & \textbf{Stratified (5.4)} \\ \midrule
+    Number of Iris Versicolor   & & & & & \\
+    Number of Iris Setosa       & & & & & \\
+    Number of Iris Virginica    & & & & & \\
+    Are there repeated identifiers? & & & & & \\
+    Does the number of Iris Versicolor included in the sample change if you change the local random seed? & Yes/No & Yes/No & Yes/No & Yes/No & Yes/No \\ \bottomrule
+    \end{tabular}
+    \label{tab:sampling_summary}
+\end{table}
+
+\end{document}
