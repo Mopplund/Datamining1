@@ -71,60 +71,83 @@ print(f"sl std: {np.std(data['sl'])}")
 print('===========')
 
 # 4.1
-scaler = MinMaxScaler((0, 1))
-
 # Apply MinMaxScaler to each column and store the result in a new column
-minmax_scaled = scaler.fit_transform(data[['sl']])
+data[['pl','pw','sl','sw']] = MinMaxScaler((0, 1)).fit_transform(data[['pl','pw','sl','sw']])
 
-print(f"minmax_scaled: sl mean: {minmax_scaled.mean()}")
-print(f"minmax_scaled:sl std: {np.std(minmax_scaled)}")
+print(f"minmax_scaled: sl mean: {data['sl'].mean()}")
+print(f"minmax_scaled:sl std: {np.std(data['sl'])}")
 
 print('===========')
 
 
 # 4.2
-sd_scaled = StandardScaler().fit_transform(data[['sl']])
-print(f"sd_scaled: sl mean: {sd_scaled.mean()}")
-print(f"sd_scaled: sl std: {np.std(sd_scaled)}")
+data[['pl','pw','sl','sw']] = StandardScaler().fit_transform(data[['pl','pw','sl','sw']])
+print(f"sd_scaled: sl mean: {data['sl'].mean()}")
+print(f"sd_scaled: sl std: {np.std(data['sl'])}")
 
 print('===========')
 
 
 # 4.3
 # Apply PCA with N principal components
-pca = PCA(n_components=4)
-print(pca.explained_variance_ratio_)
+pca = PCA()
+principal_components = pca.fit_transform(data[['pl', 'pw', 'sl', 'sw']])
 
+print(pca.explained_variance_ratio_)
+print(pca.explained_variance_ratio_.cumsum())
 n=-1
 for i in range(0,5):
-    if pca.explained_variance_ratio_[0:i].cumsum() >= 0.95:
-        n = i
+    if pca.explained_variance_ratio_.cumsum()[i] >= 0.95:
+        n = i+1
         break
 print(f"95% requires {n} components")
 
-principal_components = pca.fit_transform(data[['sl', 'sw', 'pl', 'pw']])
+
+pca = PCA(n_components=2)
+principal_components = pca.fit_transform(data[['pl', 'pw', 'sl', 'sw']])
 
 # Check how many components were selected
-print(f"Number of components selected: {pca.n_components_}")
+#print(f"Number of components selected: {pca.n_components}")
 
 print('===========')
 
 # 4.4
-# Create a DataFrame of the PCA components
-# print(pca.components_.shape)
+#Create a DataFrame of the PCA components
 
-# pca_df = pd.DataFrame(
-#     pca.components_,
-#     columns=["Sepal L", "Sepal W", "Petal L", "Petal W"],
-#     index=[f'PC {i+1}' for i in range(pca.components_.shape[0])]  # Adjust row labels dynamically
-# )
+r = pd.DataFrame(pca.components_, columns = ["Sepal L", "Sepal W",
+"Petal L" , "Petal W"], index =['PC 1', 'PC 2']).abs().mean(axis = 0)
+print(pca.components_)
+print(pca.explained_variance_ratio_)
 
-# # Check the absolute contribution of each attribute to the principal components
-# mean_contribution = pca_df.abs().mean(axis=0)
-# print(mean_contribution)
+print('===========')
+
+# Check the absolute contribution of each attribute to the principal components
+#mean_contribution = pca_df.abs().mean(axis=0)
+#print(mean_contribution)
 
 # 4.5
-#minmax_scaled = MinMaxScaler((0, 100)).fit_transform(data)
+data[['pl']] = MinMaxScaler((0, 100)).fit_transform(data[['pl']])
+pca_mm = PCA()
+principal_components = pca.fit_transform(data[['pl', 'pw', 'sl', 'sw']])
+print(pca.components_)
+print(pca.explained_variance_ratio_)
+
+
+print('===========')
+
+#4.6
+data[['pl']] = MinMaxScaler((0, 1)).fit_transform(data[['pl']])
+data['pl'][0] = 5000
+data[['pl']] = MinMaxScaler((0, 1)).fit_transform(data[['pl']])
+pca_mm = PCA()
+principal_components = pca.fit_transform(data[['pl', 'pw', 'sl', 'sw']])
+print(pca.components_)
+print(pca.explained_variance_ratio_)
+
+
+print('===========')
+
+
 
 def print_repeated_identifiers(m, data):
     print(f"{m}: Repeats: {data['id'].duplicated().any()}")
@@ -155,7 +178,7 @@ print('===========')
 # 5.4
 sample = data.groupby('species' , group_keys = False).apply(lambda x : x.sample(50))
 print_repeated_identifiers("Stratified ver. 2", sample)
-print(sample.value_counts('species'))
+#print(sample.value_counts('species'))
 # Plot the pairplot with the filtered data and "species" as hue
 #sns.pairplot(data, hue="species")
 #plt.show()
