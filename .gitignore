@@ -1,6 +1,5 @@
 *.fls
 *.aux
 *.fdb_latexmk
-*.ipynb
 .DS_Store
 __MACOSX
