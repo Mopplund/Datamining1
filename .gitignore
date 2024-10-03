@@ -3,3 +3,5 @@
 *.fdb_latexmk
 .DS_Store
 __MACOSX
+mining/
+venv/
